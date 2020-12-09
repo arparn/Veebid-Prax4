@@ -1,0 +1,101 @@
+.gameBody {
+    margin: 0;
+    background: #19091C;
+    display: flex;
+    flex-flow: row;
+}
+
+.gameBoard {
+    margin-top: 80px;
+    border: black solid 6px;
+    background-image: url("/public/images/table.jpg");
+    display: flex;
+    flex-flow: column;
+}
+
+.messageArea {
+    margin: 10px;
+    margin-bottom: 0;
+    padding: 10px;
+    height: 100px;
+    background-color: cornsilk;
+    display: flex;
+    flex-flow: row wrap;
+    font-family: Helvetica, sans-serif;
+    font-size: 1.6em;
+}
+
+.messages {
+    align-self: center;
+}
+
+.gameArea {
+    margin: 140px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.rollButton {
+    margin: 10px;
+    font-size: 2em;
+    background-color: cornsilk;
+    align-self: center;
+}
+
+.images {
+    width: 530px;
+    height: 110px;
+    align-self: center;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.resultTableArea {
+    margin-top: 80px;
+    margin-left: 30px;
+}
+
+.dropDownList {
+    display: flex;
+    flex-direction: column;
+    margin-top: 80px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.dropLable {
+    color: white;
+}
+
+.reloadBtn {
+    font-family: Helvetica, sans-serif;
+    background-color: cornsilk;
+    align-self: flex-start;
+}
+
+.upperSecSum {
+    border-top: solid 3.5px #19091C;
+}
+
+.upperSecBoonus {
+    border-bottom: solid 3.5px #19091C;
+}
+
+.totalSum {
+    border-top: solid 3.5px #19091C;
+}
+
+table, th, td {
+    background-color: cornsilk;
+    border: solid 2px #19091C;
+    border-collapse: collapse;
+    font-family: Helvetica, sans-serif;
+    text-align: left;
+}
+
+th {
+    width: 120px;
+    height: 30px;
+}
