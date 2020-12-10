@@ -1,8 +1,29 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: Arial, serif;
+  color: #333;
 }
 
+
 a {
-  color: #00B7FF;
+  text-decoration: none;
+  color: #007e41;
 }
+
+a:hover {
+  text-decoration: underline;
+  text-decoration-color: magenta;
+}
+
+
+body script {
+  display: block;
+  font-family: monospace;
+  white-space: pre;
+}
+
+
+label {
+  font-weight: bold;
+  display: block;
+}
+

@@ -1,30 +1,40 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 const app = express()
-const port = 10000
+const port = 8000
 
-app.use(bodyParser.json())
+let turns = 13;
+players = [];
+games = [];
 
-app.get('/', (request, response) => {
+app.use(cors())	//Enable CORS
 
-    let name = request.query['name'] || 'person with no name';
-    let age = request.query['age'];
+app.use(bodyParser.json()) // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 
-    let msg = `Hello ${name}! You are ${age} years old.`;
-
-    response.json(msg);
-    //response.json(JSON.stringify(msg))
+app.get('/players', (req, res) => {
+    res.json(players);
 })
 
-// app.post('/', (request, response) => {
-//
-//     let name = request.body['name'] || 'person with no name'
-//     let age = request.body['age']
-//
-//     response.send(`POST: Hello ${name}! You are ${age} years old.`)
-// })
+app.get('/games', (req, res) => {
+    res.send(games);
+})
+
+app.post('/', (req, res) => {
+    let name = req.body.name;
+    players.push(name);
+    if (players.length % 2 === 0) {
+        for (let i = 0; i < players.length; i++) {
+            if (i % 2 !== 0) {
+                games.push([players[i - 1], players[i]])
+            }
+        }
+    }
+    res.json(games);
+})
 
 app.listen(port, () => {
-    console.log('port: ' + port)
-});
+    console.log(`Listening at port: ${port}`)
+})
