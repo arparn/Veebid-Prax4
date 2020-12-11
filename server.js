@@ -5,35 +5,36 @@ const cors = require('cors')
 const app = express()
 const port = 8000
 
-let turns = 13;
-players = [];
-games = [];
+let game_id = 0;
+let games = [];
+let players = [];
+
 
 app.use(cors())	//Enable CORS
 
 app.use(bodyParser.json()) // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 
-app.get('/players', (req, res) => {
-    res.json(players);
-})
-
-app.get('/games', (req, res) => {
-    res.send(games);
-})
-
-app.post('/', (req, res) => {
+app.post('/connect', ((req, res) => {
     let name = req.body.name;
-    players.push(name);
-    if (players.length % 2 === 0) {
-        for (let i = 0; i < players.length; i++) {
-            if (i % 2 !== 0) {
-                games.push([players[i - 1], players[i]])
-            }
-        }
+    if (players.length <= 2) {
+        players.push(name);
     }
-    res.json(games);
-})
+    if (players.length === 1) {
+        games.push({id: 0, p1: '', p2: '', begin: false, turns: 13, whose_turn: 1});
+        games[game_id].p1 = name;
+        res.json({id: game_id});
+    } else if (players.length === 2) {
+        games[game_id].p2 = name;
+        games[game_id].id = game_id;
+        games[game_id].begin = true;
+        players = [];
+        res.json({g_id: games[game_id].id});
+        game_id ++;
+    }
+    console.log(games);
+    console.log(game_id);
+}))
 
 app.listen(port, () => {
     console.log(`Listening at port: ${port}`)
