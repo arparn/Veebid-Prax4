@@ -16,12 +16,11 @@
 <!--        <option value="7">7</option>-->
 <!--        <option value="3">3</option>-->
 <!--    </select><br>-->
-    <form method="post" action="multiplayer.html">
-        <label style="color: white">Name:
-            <input id="name" type="text" name="name" required="required" value="xxx">
-        </label>
-        <button type="submit" onclick="connect(document.getElementById('name').value)">Play!</button>
-    </form>
+    <label style="color: white">Name:
+        <input id="name" type="text" name="name" required="required" value="xxx">
+    </label>
+    <button id="search" onclick="connect(document.getElementById('name').value)">Search Players</button>
+<!--    document.getElementById('name').value-->
 </div>
 
 </body>
