@@ -8,7 +8,7 @@
 .gameBoard {
     margin-top: 80px;
     border: black solid 6px;
-    background-image: url("/public/images/table.jpg");
+    background-image: url("../images/table.jpg");
     display: flex;
     flex-flow: column;
 }

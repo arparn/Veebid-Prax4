@@ -1,28 +1,30 @@
-let min = 1;
-let max = 6;
-let rolls = 0;
-let turn = 1;
-let maxTurn = 7;
+let min = 1; // dlya randoma vibora kubikov
+let max = 6; // dlya randoma vibora kubikov
+let rolls = 0; // broski
+let turn = 1; // indikator hodov
+let maxTurn = 7; // max hodi
 
-let held = [false, false, false, false, false];
-let diceValues = [0, 0, 0, 0, 0];
-let sameSum = [0, 0, 0, 0, 0, 0];
-let lowerSectionSum = [0, 0, 0, 0, 0, 0];
-let savedSum = [false, false, false, false, false, false, false, false, false, false, false, false];
-let savedScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let held = [false, false, false, false, false]; // otlozenniye kubiki
+let diceValues = [0, 0, 0, 0, 0]; // cifri na kubikah
+let sameSum = [0, 0, 0, 0, 0, 0]; // summi kubikov s odinakovimi znacheniyami
+let lowerSectionSum = [0, 0, 0, 0, 0, 0]; // summa ockov nizney sekcii
+let savedSum = [false, false, false, false, false, false, false, false, false, false, false, false]; // vse sohranenniye kombinacee
+let savedScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // vse ocki za sohranenniye kombinacii
 
-let resultSaved = false;
-let gameOver = false;
-let turnsChoosed = false;
-let upperCheckSum = false;
+let resultSaved = false; // indikator sohraneniya ockov, pokazivaet konec hoda
+let gameOver = false; // indikator konca igri
+let turnsChoosed = false; // indikator vibora kolicestva hodov
+let upperCheckSum = false; // indikator zapolnenosti verhney sekcii
 
-let yahtzee = 0;
-let savedYahtzee = 0;
-let hadYahtzee = false;
+let yahtzee = 0; // summa za yahtzee
+let savedYahtzee = 0; // ocki sohranennogo yahtze
+let hadYahtzee = false; // indikator yahtze
 
 let player1 = "";
 let player2 = "";
-let whoseTurn = 0;
+let whoseTurn = 0; // indicator cei hod
+
+
 let savedSum2 = [false, false, false, false, false, false, false, false, false, false, false, false];
 let savedScore2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 let yahtzee2 = 0;
@@ -353,7 +355,6 @@ function fillTable() {
 }
 
 function saveResult2(id, cellId) {
-    console.log(turn);
     if (whoseTurn > 0) {
         if (savedSum2[id] === false && resultSaved === false) {
             savedSum2[id] = true;

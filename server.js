@@ -13,6 +13,10 @@ let game_id = 0;
 let games = [];
 let players = [];
 
+app.get('/turn', function (req, res) {
+    let needed_id = req.query['id']
+    res.send({turn: games[needed_id].whose_turn})
+})
 
 app.get('/connect', function(req, res) {
     let name = req.query['name']
@@ -20,15 +24,15 @@ app.get('/connect', function(req, res) {
         players.push(name);
     }
     if (players.length === 1) {
-        games.push({id: game_id, p1: '', p2: '', begin: false, turns: 13, whose_turn: 1});
+        games.push({id: game_id, p1: '', p2: '', begin: false, turns: 13, whose_turn: 0});
         games[game_id].p1 = name;
-        res.send({id: game_id, name: name});
+        res.send({id: game_id, name: name, my_id: 0});
     } else if (players.length === 2) {
         games[game_id].p2 = name;
         games[game_id].begin = true;
         players = [];
         game_id ++;
-        res.send({id: games[game_id - 1].id, name: name});
+        res.send({id: games[game_id - 1].id, name: name, my_id: 1});
     }
      console.log(games)
      console.log(game_id)
@@ -38,28 +42,6 @@ app.get('/check', function (req, res) {
     let id = req.query['id']
     return res.send({check: games[id].begin, url: '/multiplayer.html'})
 })
-
-
-
-// app.post('/connect', ((req, res) => {
-//     let name = req.body.name;
-//     if (players.length <= 2) {
-//         players.push(name);
-//     }
-//     if (players.length === 1) {
-//         games.push({id: 0, p1: '', p2: '', begin: false, turns: 13, whose_turn: 1});
-//         games[game_id].p1 = name;
-//         res.send({id: game_id});
-//     } else if (players.length === 2) {
-//         games[game_id].p2 = name;
-//         games[game_id].id = game_id;
-//         games[game_id].begin = true;
-//         players = [];
-//         res.send(false);
-//         game_id ++;
-//     }
-//     console.log(games);
-// }))
 
 app.listen(port, () => {
     console.log(`Listening at port: ${port}`)
