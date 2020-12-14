@@ -10,16 +10,16 @@
 <body class="gameBody">
 <h1 style="color: white">Welcome!</h1>
 <div class="dropDownList">
-<!--    <label class="dropLable" for="selectTurns">Choose turns:</label>-->
-<!--    <select name="turns" id="selectTurns">-->
-<!--        <option value="13">13</option>-->
-<!--        <option value="7">7</option>-->
-<!--        <option value="3">3</option>-->
-<!--    </select><br>-->
+    <label class="dropLable" for="selectTurns">Choose turns:</label>
+    <select name="turns" id="selectTurns">
+        <option value="13">13</option>
+        <option value="7">7</option>
+        <option value="3">3</option>
+    </select><br>
     <label style="color: white">Name:
         <input id="name" type="text" name="name" required="required" value="xxx">
     </label>
-    <button id="search" onclick="connect(document.getElementById('name').value)">Search Players</button>
+    <button id="search" onclick="connect(document.getElementById('name').value, document.getElementById('selectTurns').value)">Search Players</button>
 </div>
 
 </body>

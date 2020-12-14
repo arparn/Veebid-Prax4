@@ -10,13 +10,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66fa663f-0f17-44cf-8e6d-39040337d792" name="Default Changelist" comment="Fix server, make 2 gamers connect and create game.">
+    <list default="true" id="66fa663f-0f17-44cf-8e6d-39040337d792" name="Default Changelist" comment="valuable info">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/frontend.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/frontend.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/YahtzeeGame.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/YahtzeeGame.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/multiplayer.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/multiplayer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/stylesheets/YahtzeeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/YahtzeeStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +42,9 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/public/images" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -66,7 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1607450934830</updated>
       <workItem from="1607450936088" duration="37748000" />
-      <workItem from="1607676033119" duration="47646000" />
+      <workItem from="1607676033119" duration="97030000" />
     </task>
     <task id="LOCAL-00001" summary="Getting started">
       <created>1607535021032</created>
@@ -103,7 +104,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607724049357</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="valuable info">
+      <created>1607792078162</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1607792078162</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,7 +134,8 @@
     <MESSAGE value="Understood how server work" />
     <MESSAGE value="Add simple server, add player connections and game creation" />
     <MESSAGE value="Fix server, make 2 gamers connect and create game." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix server, make 2 gamers connect and create game." />
+    <MESSAGE value="valuable info" />
+    <option name="LAST_COMMIT_MESSAGE" value="valuable info" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1607637407336">
@@ -145,13 +154,13 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607637407336" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1607724050628">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1607792080275">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1607724050628" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1607779175171">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1607792080275" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1607854005316">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1607779175171" />
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1607854005316" />
   </component>
 </project>

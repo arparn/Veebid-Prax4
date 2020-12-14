@@ -2,8 +2,7 @@
 let min = 1; // dlya randoma vibora kubikov
 let max = 6; // dlya randoma vibora kubikov
 let rolls = 0; // broski
-let turn = 1; // indikator hodov
-let maxTurn = 7; // max hodi
+let turn = 13; // indikator hodov
 
 let held = [false, false, false, false, false]; // otlozenniye kubiki
 let diceValues = [0, 0, 0, 0, 0]; // cifri na kubikah
@@ -16,20 +15,22 @@ let resultSaved = false; // indikator sohraneniya ockov, pokazivaet konec hoda
 let gameOver = false; // indikator konca igri
 let turnsChoosed = false; // indikator vibora kolicestva hodov
 let upperCheckSum = false; // indikator zapolnenosti verhney sekcii
+let sumUpper = 0;
+let sum = 0;
+let bonus = 0;
 
 let yahtzee = 0; // summa za yahtzee
-let savedYahtzee = 0; // ocki sohranennogo yahtze
 let hadYahtzee = false; // indikator yahtze
 
-let whoseTurn;
-let enemy = 'hui';
+let enemy = 'Enemy';
 
-let savedSum2 = [false, false, false, false, false, false, false, false, false, false, false, false];
-let savedScore2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let yahtzee2 = 0;
-let savedYahtzee2 = 0;
-let hadYahtzee2 = false;
-let upperCheckSum2 = false;
+let enemyScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let enemyDices = [1, 1, 1, 1, 1];
+let enemyHold = [false, false, false, false, false];
+let enemyYahtzee = 0;
+let enemySum = 0;
+let enemySumUpper = 0;
+let enemyBonus = 0;
 
 function get(id) {
     return document.getElementById(id);
@@ -48,7 +49,7 @@ function getRandomInt(min, max) { // min and max included
 }
 
 function changeDie(diceId) {
-    let number = getRandomInt(min, max)
+    let number = getRandomInt(min, max);
     if (number === 1) {
         get(diceId).src = "images/one.png";
     }
@@ -75,57 +76,77 @@ function changeDie(diceId) {
 
 function holdDie(id) {
     if (rolls > 0 && rolls < 3) {
-        if (held[id] === false) {
+        if (held[id] == false) {
             held[id] = true;
             get(id).style.border = "solid red";
         } else {
             held[id] = false;
             get(id).style.border = "none";
         }
+        send_my_dices(diceValues, held);
     }
 }
 
-function resetDices() {
-    // if (turnsChoosed === false) {
-    //     maxTurn = get("selectTurns").value;
-    //     player1 = get("player1").value;
-    //     player2 = get("player2").value;
-    //     setName(player1, "player1Name");
-    //     setName(player2, "player2Name");
-    //     turnsChoosed = true;
-    // }
-    if (rolls < 3 && turn < maxTurn + 1 && gameOver === false) {
-        if (resultSaved === true) {
-            held = [false, false, false, false, false];
-            resultSaved = false;
-        }
-        sameSum = [0, 0, 0, 0, 0, 0];
-        lowerSectionSum = [0, 0, 0, 0, 0, 0];
-        for (let i = 0; i < 5; i++) {
-            if (held[i] === false) {
-                changeDie(i);
+function resetDices() {  // TODO: с этого метода начинается игра
+    can_i_play().then(function (res) {
+        if (res == true && rolls < 3 && turn > 0 && gameOver == false) {
+            if (resultSaved == true) {
+                held = [false, false, false, false, false];
+                resultSaved = false;
             }
-        }
-        rolls++;
-        let rollsNum = 3 - rolls;
-        // if (whoseTurn !== sessionStorage.getItem('my_id')) {
-        //     message = enemy + " have " + rollsNum + " rolls left. Turn: " + turn;
-        // } else {
-        //     message = sessionStorage.getItem('name') + " have " + rollsNum + " rolls left. Turn: " + turn;
-        // }
-        get_whose_turn().then(function (result) {
-            let message;
-            console.log(result.turn != sessionStorage.getItem('my_id'));
-            if (result.turn != sessionStorage.getItem('my_id')) {
-                message = enemy + " have " + rollsNum + " rolls left. Turn: " + turn;
-            } else {
-                message = sessionStorage.getItem('name') + " have " + rollsNum + " rolls left. Turn: " + turn;
+            sameSum = [0, 0, 0, 0, 0, 0];
+            lowerSectionSum = [0, 0, 0, 0, 0, 0];
+            for (let i = 0; i < 5; i++) {
+                if (held[i] == false) {
+                    changeDie(i);
+                }
             }
-            setMessage(message);
-        });
-        calculateSame();
-        calculateSameLower();
-        fillTable();
+            rolls++;
+            let rollsNum = 3 - rolls;
+            setMessage(sessionStorage.getItem('name') + " have " + rollsNum + " rolls left. Turns left: " + turn)
+            calculateSame();
+            calculateSameLower();
+            fillTable();
+            send_my_dices(diceValues, held);
+        }
+    })
+    // get_whose_turn().then(function (result) {
+    //     let message;
+    //     if (result.turn != sessionStorage.getItem('my_id')) {
+    //         message = enemy + " have " + rollsNum + " rolls left. Turn: " + turn;
+    //     } else {
+    //         message = sessionStorage.getItem('name') + " have " + rollsNum + " rolls left. Turn: " + turn;
+    //     }
+    //     setMessage(message);
+    // });
+}
+
+function renderEnemyDices() {
+    for (let i = 0; i < 5; i++) {
+        let number = enemyDices[i];
+        if (number == 1) {
+            get(i).src = "images/one.png";
+        }
+        if (number == 2) {
+            get(i).src = "images/two.png";
+        }
+        if (number == 3) {
+            get(i).src = "images/three.png";
+        }
+        if (number == 4) {
+            get(i).src = "images/four.png";
+        }
+        if (number == 5) {
+            get(i).src = "images/five.png";
+        }
+        if (number == 6) {
+            get(i).src = "images/six.png";
+        }
+        if (enemyHold[i] == true) {
+            get(i).style.border = "solid red";
+        } else {
+            get(i).style.border = "none";
+        }
     }
 }
 
@@ -199,20 +220,11 @@ function calculateSameLower() {
                 break;
         }
     }
-    if (whoseTurn !== sessionStorage.getItem('my_id')) {
-        if (yahtzeeCheck === true && hadYahtzee2 === false) {
-            yahtzee2 = 50;
-        }
-        if (yahtzeeCheck === true && hadYahtzee2 === true && savedYahtzee2 > 0) {
-            yahtzee2 = savedYahtzee2 + 100;
-        }
-    } else {
-        if (yahtzeeCheck === true && hadYahtzee === false) {
-            yahtzee = 50;
-        }
-        if (yahtzeeCheck === true && hadYahtzee === true && savedYahtzee > 0) {
-            yahtzee = savedYahtzee + 100;
-        }
+    if (yahtzeeCheck === true && hadYahtzee === false) {
+        yahtzee = 50;
+    }
+    if (yahtzeeCheck === true && hadYahtzee === true) {
+        yahtzee = yahtzee + 100;
     }
 }
 
@@ -235,117 +247,154 @@ function calculateBigStraight() {
 }
 
 function fillTable() {
-    if (whoseTurn !== sessionStorage.getItem('my_id')) {
-        for (let i = 0; i < 6; i++) {
-            switch(i) {
-                case 0:
-                    if (savedSum2[i] === false) {
-                        get("onesScore2").innerText = sameSum[i];
-                    }
-                    if (savedSum2[i + 6] === false) {
-                        get("threeOfAKindScore2").innerText = lowerSectionSum[i];
-                    }
-                    break;
-                case 1:
-                    if (savedSum2[i] === false) {
-                        get("twosScore2").innerText = sameSum[i];
-                    }
-                    if (savedSum2[i + 6] === false) {
-                        get("fourOfAKindScore2").innerText = lowerSectionSum[i];
-                    }
-                    break;
-                case 2:
-                    if (savedSum2[i] === false) {
-                        get("threesScore2").innerText = sameSum[i];
-                    }
-                    if (savedSum2[i + 6] === false) {
-                        get("fullHouseScore2").innerText = lowerSectionSum[i];
-                    }
-                    break;
-                case 3:
-                    if (savedSum2[i] === false) {
-                        get("foursScore2").innerText = sameSum[i];
-                    }
-                    if (savedSum2[i + 6] === false) {
-                        get("smallStraightScore2").innerText = lowerSectionSum[i];
-                    }
-                    break;
-                case 4:
-                    if (savedSum2[i] === false) {
-                        get("fivesScore2").innerText = sameSum[i];
-                    }
-                    if (savedSum2[i + 6] === false) {
-                        get("largeStraightScore2").innerText = lowerSectionSum[i];
-                    }
-                    break;
-                case 5:
-                    if (savedSum2[i] === false) {
-                        get("sixesScore2").innerText = sameSum[i];
-                    }
-                    if (savedSum2[i + 6] === false) {
-                        get("jokerScore2").innerText = lowerSectionSum[i];
-                    }
-                    break;
-            }
+    for (let i = 0; i < 6; i++) {
+        switch(i) {
+            case 0:
+                if (savedSum[i] === false) {
+                    get("onesScore").innerText = sameSum[i];
+                }
+                if (savedSum[i + 6] === false) {
+                    get("threeOfAKindScore").innerText = lowerSectionSum[i];
+                }
+                break;
+            case 1:
+                if (savedSum[i] === false) {
+                    get("twosScore").innerText = sameSum[i];
+                }
+                if (savedSum[i + 6] === false) {
+                    get("fourOfAKindScore").innerText = lowerSectionSum[i];
+                }
+                break;
+            case 2:
+                if (savedSum[i] === false) {
+                    get("threesScore").innerText = sameSum[i];
+                }
+                if (savedSum[i + 6] === false) {
+                    get("fullHouseScore").innerText = lowerSectionSum[i];
+                }
+                break;
+            case 3:
+                if (savedSum[i] === false) {
+                    get("foursScore").innerText = sameSum[i];
+                }
+                if (savedSum[i + 6] === false) {
+                    get("smallStraightScore").innerText = lowerSectionSum[i];
+                }
+                break;
+            case 4:
+                if (savedSum[i] === false) {
+                    get("fivesScore").innerText = sameSum[i];
+                }
+                if (savedSum[i + 6] === false) {
+                    get("largeStraightScore").innerText = lowerSectionSum[i];
+                }
+                break;
+            case 5:
+                if (savedSum[i] === false) {
+                    get("sixesScore").innerText = sameSum[i];
+                }
+                if (savedSum[i + 6] === false) {
+                    get("jokerScore").innerText = lowerSectionSum[i];
+                }
+                break;
         }
-        get("yahtzeeScore2").innerText = yahtzee2;
-    } else {
-        for (let i = 0; i < 6; i++) {
-            switch(i) {
-                case 0:
-                    if (savedSum[i] === false) {
-                        get("onesScore").innerText = sameSum[i];
-                    }
-                    if (savedSum[i + 6] === false) {
-                        get("threeOfAKindScore").innerText = lowerSectionSum[i];
-                    }
-                    break;
-                case 1:
-                    if (savedSum[i] === false) {
-                        get("twosScore").innerText = sameSum[i];
-                    }
-                    if (savedSum[i + 6] === false) {
-                        get("fourOfAKindScore").innerText = lowerSectionSum[i];
-                    }
-                    break;
-                case 2:
-                    if (savedSum[i] === false) {
-                        get("threesScore").innerText = sameSum[i];
-                    }
-                    if (savedSum[i + 6] === false) {
-                        get("fullHouseScore").innerText = lowerSectionSum[i];
-                    }
-                    break;
-                case 3:
-                    if (savedSum[i] === false) {
-                        get("foursScore").innerText = sameSum[i];
-                    }
-                    if (savedSum[i + 6] === false) {
-                        get("smallStraightScore").innerText = lowerSectionSum[i];
-                    }
-                    break;
-                case 4:
-                    if (savedSum[i] === false) {
-                        get("fivesScore").innerText = sameSum[i];
-                    }
-                    if (savedSum[i + 6] === false) {
-                        get("largeStraightScore").innerText = lowerSectionSum[i];
-                    }
-                    break;
-                case 5:
-                    if (savedSum[i] === false) {
-                        get("sixesScore").innerText = sameSum[i];
-                    }
-                    if (savedSum[i + 6] === false) {
-                        get("jokerScore").innerText = lowerSectionSum[i];
-                    }
-                    break;
-            }
-        }
-        get("yahtzeeScore").innerText = yahtzee;
     }
+    get("yahtzeeScore").innerText = yahtzee;
 }
 
+function fillTableEnemy() {
+    for (let i = 0; i < 6; i++) {
+        switch(i) {
+            case 0:
+                get("onesScore2").innerText = enemyScore[i];
+                get("threeOfAKindScore2").innerText = enemyScore[i + 6];
+                break;
+            case 1:
+                get("twosScore2").innerText = enemyScore[i];
+                get("fourOfAKindScore2").innerText = enemyScore[i + 6];
+                break;
+            case 2:
+                get("threesScore2").innerText = enemyScore[i];
+                get("fullHouseScore2").innerText = enemyScore[i + 6];
+                break;
+            case 3:
+                get("foursScore2").innerText = enemyScore[i];
+                get("smallStraightScore2").innerText = enemyScore[i + 6];
+                break;
+            case 4:
+                get("fivesScore2").innerText = enemyScore[i];
+                get("largeStraightScore2").innerText = enemyScore[i + 6];
+                break;
+            case 5:
+                get("sixesScore2").innerText = enemyScore[i];
+                get("jokerScore2").innerText = enemyScore[i + 6];
+                break;
+        }
+    }
+    get("yahtzeeScore2").innerText = enemyYahtzee;
+    get("upperSecSumScore2").innerText = enemySumUpper;
+    get("upperSecBoonusScore2").innerText = enemyBonus;
+    get("totalScore2").innerText = enemySum;
+}
+
+function saveResult(id, cellId) {
+    can_i_play().then(function (res) {
+        if (res == true) {
+            if (savedSum[id] === false && resultSaved === false) {
+                savedSum[id] = true;
+                savedScore[id] = parseInt(get(cellId).innerText);
+                get(cellId).style.background = "grey";
+                resultSaved = true;
+                if (upperCheckSum == false && checkUpperSection() == true) {
+                    upperCheckSum = true;
+                    sumUpper = calcSumUpper();
+                    if (sumUpper >= 63) {
+                        bonus = 35;
+                    }
+                    get("upperSecBoonusScore").style.background = "grey";
+                    get("upperSecBoonusScore").innerText = bonus;
+                    get("upperSecSumScore").style.background = "grey";
+                    get("upperSecSumScore").innerText = sumUpper + bonus;
+                }
+                setMessage("Result saved! " + enemy + "'s turn!");
+                send_my_dices([1, 1, 1, 1, 1], [false, false, false, false, false]);
+                send_scores(savedScore, yahtzee, sumUpper, sum, bonus);
+                resetAll();
+            }
+        }
+    })
+    setTimeout(() => {
+        can_i_play().then(r => console.log('result saved'));
+    }, 2000);
+}
+
+function saveYahtzee(cellId) {
+    can_i_play().then(function (res) {
+        if (res == true) {
+            if (hadYahtzee == false) {
+                hadYahtzee = true;
+            }
+            get(cellId).style.background = "grey";
+            resultSaved = true;
+            setMessage("Result saved!" + enemy + "'s turn!");
+            send_my_dices([1, 1, 1, 1, 1], [false, false, false, false, false]);
+            send_scores(savedScore, yahtzee, sumUpper, sum, bonus);
+            resetAll();
+        }
+    })
+    setTimeout(() => {
+        can_i_play().then(r => console.log('result saved'));
+    }, 2000);
+}
+
+function resetAll() {
+    rolls = 0;
+    resetHold();
+    setDicesToOne();
+    sameSum = [0, 0, 0, 0, 0, 0];
+    lowerSectionSum = [0, 0, 0, 0, 0, 0];
+    fillTable();
+}
 
 function setDicesToOne() {
     for (let i = 0; i < 5; i++) {
@@ -360,41 +409,165 @@ function resetHold() {
 }
 
 
+function checkUpperSection() {
+    for (let i = 0; i < 5; i++) {
+        if (savedSum[i] === false) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function calcSum() {
+    let sum = 0;
+    for (let i = 0; i < 12; i++) {
+        sum = sum + savedScore[i];
+    }
+    return sum + yahtzee;
+}
+
+function calcSumUpper() {
+    let sum = 0;
+    for (let i = 0; i < 6; i++) {
+        sum = sum + savedScore[i];
+    }
+    return sum;
+}
+
+function whoWon() {
+    if (sum > enemySum) {
+        return sessionStorage.getItem('name') + " win!";
+    } else {
+        return enemy + " win!";
+    }
+}
 
 
+// -POST DATA TO SERVER- //
 
+function send_my_dices(dices, hold) {
+    let data = {
+        id: sessionStorage.getItem('id'),
+        name: sessionStorage.getItem('name'),
+        p_id: sessionStorage.getItem('my_id'),
+        dices: dices,
+        hold: hold,
+        saved: resultSaved
+    };
+    fetch('/my_daces', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    })
+        .then(res => res.json())
+}
 
+function send_scores(score, yahtzee, sumUp, sum_all, bon) {
+    let data = {
+        id: sessionStorage.getItem('id'),
+        p_id: sessionStorage.getItem('my_id'),
+        score: score,
+        yahtzee: yahtzee,
+        sumUpper: sumUp,
+        sum: sum_all,
+        bonus: bon
+    };
+    fetch('/my_score', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    }).then(res => res.json())
+}
+
+// _POST DATA TO SERVER END- //
 
 
 // -GET DATA FROM SERVER- //
 
-// function get_whose_turn() {
-//     fetch(`/turn/?id=${sessionStorage.getItem('id')}`)
-//         .then(res => res.json())
-//         .then(data => {
-//             whoseTurn = data.turn
-//             console.log('in fetch ', whoseTurn)
-//         })
-// }
+async function can_i_play() {
+    const res = await fetch(`/allow_play/?id=${sessionStorage.getItem('id')}&my_id=${sessionStorage.getItem('my_id')}`)
+    const ans = await res.json();
+    get_enemy_score();
+    if (gameOver == false && ans == false) {
+        setMessage(enemy + "'s turn!");
+        setTimeout(() => {
+            get_enemy_dices();
+            can_i_play();
+        }, 2000);
+    } else if (gameOver == true) {
+        sum = calcSum();
+        if (upperCheckSum === false) {
+            sumUpper = calcSumUpper();
+            get("upperSecSumScore").innerText = sumUpper;
+            get("upperSecBoonusScore").innerText = bonus;
+        }
+        get("totalScore").innerText = sum;
+        get("totalScore").style.background = "grey";
+        let message = "Your score is: " + sum + ". " + "Game Over!";
+        setMessage(message);
+        send_scores(savedScore, yahtzee, sumUpper, sum, bonus);
+        get_enemy_score();
+        let who_won = whoWon();
+        setMessage(message + ' ' + who_won);
+    } else {
+        setMessage('Your turn!');
+        if (rolls == 0) {
+            resetAll();
+        }
+        return ans;
+    }
+}
 
-async function get_whose_turn() {
-    const res = await fetch(`/turn/?id=${sessionStorage.getItem('id')}`);
-    return await res.json();
+function get_enemy_dices() {
+    fetch(`/enemy_dices/?id=${sessionStorage.getItem('id')}`)
+        .then(res => res.json())
+        .then(data => {
+            enemyDices = data.dice;
+            enemyHold = data.hold;
+            renderEnemyDices();
+        })
+}
+
+function get_enemy_score() {
+    fetch(`/enemy_score/?id=${sessionStorage.getItem('id')}&my_id=${sessionStorage.getItem('my_id')}`)
+        .then(res => res.json())
+        .then(score => {
+            enemyScore = score.combinations;
+            enemyYahtzee = score.yahtzee;
+            enemySum = score.sum;
+            enemyBonus = score.bonus;
+            enemySumUpper = score.sumUpper;
+            gameOver = score.game_over;
+            turn = score.turn;
+            enemy = score.enemy;
+            get('player2Name').innerText = enemy;
+            get('player1Name').innerText = sessionStorage.getItem('name');
+            fillTableEnemy();
+            if (enemySum == 0) {
+                get_enemy_score();
+            }
+        });
 }
 
 // -GET DATA FROM SERVER END- //
 
+
 // -CONNECTION- //
 
-function connect(name) {
-    fetch(`/connect/?name=${name}`)
+function connect(name, turns) {
+    fetch(`/connect/?name=${name}&turns=${turns}`)
         .then(res => res.json())
         .then(data => {
-            sessionStorage.setItem('id', data.id) // game id
-            sessionStorage.setItem('name', data.name) // this player name
-            sessionStorage.setItem('my_id', data.my_id) // this player id (to check whose turn is)
-            get_data()
-            check_if_begin(sessionStorage.getItem('id'))
+            sessionStorage.setItem('id', data.id); // game id
+            sessionStorage.setItem('name', data.name); // this player name
+            sessionStorage.setItem('my_id', data.my_id); // this player id (to check whose turn is)
+            turn = data.turns;
+            get_data();
+            check_if_begin(sessionStorage.getItem('id'));
         })
 }
 
@@ -403,11 +576,11 @@ function check_if_begin(id) {
         .then(res => res.json())
         .then(data => {
             if (data.check === true) {
-                location.href = data.url
+                location.href = data.url;
             } else {
                 setTimeout(() => {
                     check_if_begin(id)
-                }, 2000)
+                }, 2000);
             }
         })
 }
@@ -415,7 +588,7 @@ function check_if_begin(id) {
 // -CONNECTION END- //
 
 function get_data() {
-    console.log('game id ', sessionStorage.getItem('id'))
-    console.log(sessionStorage.getItem('name'))
-    console.log('my id ', sessionStorage.getItem('my_id'))
+    console.log('game id ', sessionStorage.getItem('id'));
+    console.log('p name ', sessionStorage.getItem('name'));
+    console.log('player id ', sessionStorage.getItem('my_id'));
 }
