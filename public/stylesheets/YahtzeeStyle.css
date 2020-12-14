@@ -70,6 +70,7 @@
 }
 
 .reloadBtn {
+    margin-top: 10px;
     font-family: Helvetica, sans-serif;
     background-color: cornsilk;
     align-self: flex-start;

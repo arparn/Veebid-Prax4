@@ -442,6 +442,11 @@ function whoWon() {
     }
 }
 
+function ret() {
+    if (gameOver) {
+        history.go(-1);
+    }
+}
 
 // -POST DATA TO SERVER- //
 
@@ -511,8 +516,6 @@ async function can_i_play() {
         setMessage(message);
         send_scores(savedScore, yahtzee, sumUpper, sum, bonus);
         get_enemy_score();
-        let who_won = whoWon();
-        setMessage(message + ' ' + who_won);
     } else {
         setMessage('Your turn!');
         if (rolls == 0) {
@@ -547,8 +550,13 @@ function get_enemy_score() {
             get('player2Name').innerText = enemy;
             get('player1Name').innerText = sessionStorage.getItem('name');
             fillTableEnemy();
-            if (enemySum == 0) {
+            if (gameOver && enemySum == 0) {
                 get_enemy_score();
+            }
+            if (gameOver && enemySum != 0) {
+                let message = "Your score is: " + sum + ". " + "Game Over!";
+                let who_won = whoWon();
+                setMessage(message + ' ' + who_won);
             }
         });
 }
