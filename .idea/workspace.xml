@@ -11,15 +11,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66fa663f-0f17-44cf-8e6d-39040337d792" name="Default Changelist" comment="Done!">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontend.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/frontend.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontend_example.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/YahtzeeGame.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/main_page_example.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/single_player_index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/stylesheets/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server_example.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +62,7 @@
       <option name="presentableId" value="Default" />
       <updated>1607450934830</updated>
       <workItem from="1607450936088" duration="37748000" />
-      <workItem from="1607676033119" duration="102709000" />
+      <workItem from="1607676033119" duration="102898000" />
     </task>
     <task id="LOCAL-00001" summary="Getting started">
       <created>1607535021032</created>
@@ -128,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607978332748</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Done!">
+      <created>1608038402108</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1608038402108</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,10 +175,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607637407336" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1607978335125">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1608038404418">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1607978335125" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1608038404418" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1607854005316">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
