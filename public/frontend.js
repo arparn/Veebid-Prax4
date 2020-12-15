@@ -13,7 +13,6 @@ let savedScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // vse ocki za sohranenni
 
 let resultSaved = false; // indikator sohraneniya ockov, pokazivaet konec hoda
 let gameOver = false; // indikator konca igri
-let turnsChoosed = false; // indikator vibora kolicestva hodov
 let upperCheckSum = false; // indikator zapolnenosti verhney sekcii
 let sumUpper = 0;
 let sum = 0;
@@ -38,10 +37,6 @@ function get(id) {
 
 function setMessage(message) {
     get('message-field').innerText = message;
-}
-
-function setName(name, cellId) {
-    get(cellId).innerText = name + "'s Score:"
 }
 
 function getRandomInt(min, max) { // min and max included
@@ -87,7 +82,7 @@ function holdDie(id) {
     }
 }
 
-function resetDices() {  // TODO: с этого метода начинается игра
+function resetDices() {
     can_i_play().then(function (res) {
         if (res == true && rolls < 3 && turn > 0 && gameOver == false) {
             if (resultSaved == true) {
@@ -110,15 +105,6 @@ function resetDices() {  // TODO: с этого метода начинаетс�
             send_my_dices(diceValues, held);
         }
     })
-    // get_whose_turn().then(function (result) {
-    //     let message;
-    //     if (result.turn != sessionStorage.getItem('my_id')) {
-    //         message = enemy + " have " + rollsNum + " rolls left. Turn: " + turn;
-    //     } else {
-    //         message = sessionStorage.getItem('name') + " have " + rollsNum + " rolls left. Turn: " + turn;
-    //     }
-    //     setMessage(message);
-    // });
 }
 
 function renderEnemyDices() {
@@ -574,7 +560,6 @@ function connect(name, turns) {
             sessionStorage.setItem('name', data.name); // this player name
             sessionStorage.setItem('my_id', data.my_id); // this player id (to check whose turn is)
             turn = data.turns;
-            get_data();
             check_if_begin(sessionStorage.getItem('id'));
         })
 }
@@ -594,9 +579,3 @@ function check_if_begin(id) {
 }
 
 // -CONNECTION END- //
-
-function get_data() {
-    console.log('game id ', sessionStorage.getItem('id'));
-    console.log('p name ', sessionStorage.getItem('name'));
-    console.log('player id ', sessionStorage.getItem('my_id'));
-}

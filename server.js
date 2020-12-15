@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const port = 8000;
+const port = 6019;
 const app = express();
 const bodyParser = require("body-parser");
 
@@ -15,8 +15,6 @@ let dice_states = [];
 let saved_combinations = [];
 
 app.post('/my_daces', function(req, res) {
-    // dice_states:  {id: game_id, roll: 3, name: name, result_saved: false, current_dices: [], hold: []}
-    // games:  {id: game_id, p1: name, p2: '', begin: false, turns: 13, whose_turn: 0, game_over: false}
     let dices = req.body.dices;
     let hold = req.body.hold;
     let id = req.body.id;
@@ -44,8 +42,6 @@ app.post('/my_daces', function(req, res) {
 })
 
 app.post('/my_score', function (req, res) {
-    // saved_combinations:  {id: game_id, results: [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    //             yahtzee: [0, 0], bonus: [0, 0], sum_upper: [0, 0], sum: [0, 0]}
     let id = req.body.id;
     let p_id = req.body.p_id;
     let yah = req.body.yahtzee;
@@ -93,7 +89,6 @@ app.get('/enemy_score', function (req, res) {
 })
 
 app.get('/enemy_dices', function (req, res) {
-    // dice_states:  {id: game_id, roll: 3, name: name, result_saved: false, current_dices: []}
     let id = req.query['id'];
     let data = {dice: dice_states[id].current_dices, hold: dice_states[id].hold}
     res.send(data);
@@ -104,8 +99,6 @@ app.get('/connect', function(req, res) {
     let turns = req.query['turns'];
     if (games.length < 1) {
         games.push({id: game_id, p1: name, p2: '', begin: false, turns: turns, whose_turn: 0, game_over: false});
-        // одновременно с добарлением игры в лист с играми, мы добавляем json обект по тому же индексу что и игра,
-        // который будет показывать нам кубики в реальном времени
         dice_states.push({id: game_id, name: name, result_saved: false, current_dices: [1, 1, 1, 1, 1], hold: [false, false, false, false, false]});
         saved_combinations.push({id: game_id, results: [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
             yahtzee: [0, 0], bonus: [0, 0], sum_upper: [0, 0], sum: [0, 0]});
@@ -123,8 +116,6 @@ app.get('/connect', function(req, res) {
         if (found == false) {
             game_id++;
             games.push({id: game_id, p1: name, p2: '', begin: false, turns: turns, whose_turn: 0, game_over: false});
-            // одновременно с добарлением игры в лист с играми, мы добавляем json обект по тому же индексу что и игра,
-            // который будет показывать нам кубики в реальном времени
             dice_states.push({id: game_id, name: name, result_saved: false, current_dices: [1, 1, 1, 1, 1], hold: [false, false, false, false, false]});
             saved_combinations.push({id: game_id, results: [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
                 yahtzee: [0, 0], bonus: [0, 0], sum_upper: [0, 0], sum: [0, 0]});
